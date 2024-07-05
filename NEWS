@@ -1,0 +1,11 @@
+7
+
+* Add missing repository field (Walter Bender)
+* Fix Python GI API warnings (James Cameron)
+* Minor changes for flake8 (James Cameron)
+* Create README.md (Dave Crossland)
+* Add sample gitignore (Rahul Bothra)
+* Port to Python 3 (Rahul Bothra)
+* Add .flake8 (Ayush Nawal)
+* Change repository field (Ibiam Chihurumnaya)
+* Add NEWS (Ibiam Chihurumnaya)

@@ -1,0 +1,8 @@
+[Activity]
+name = RPiControlCenter
+activity_version = 7
+bundle_id = org.sugarlabs.RPiControlCenter
+exec = sugar-activity3 activity.RPiControlCenterActivity
+icon = activity-rpicontrolcenter
+license = GPLv2+
+repository = https://github.com/44yu5h/rpi_control_center.git
