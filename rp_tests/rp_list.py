@@ -1,3 +1,4 @@
+# flake8: noqa
 from gettext import gettext as _
 
 names = [
@@ -73,7 +74,6 @@ settings_status = {
 
 # advanced_settings_jumbo = {
 #     'Boot Behaviour': ('do_boot_behaviour', 'CLI', 'CLI with Autologin', 'GUI', 'GUI with Autologin'),
-    
 # }
 
 # advanced_settings_toggle = {

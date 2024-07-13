@@ -14,7 +14,7 @@ import pwmio
 import board
 import digitalio
 import subprocess
-from adafruit_motor import servo
+# from adafruit_motor import servo
 import adafruit_dht
 import adafruit_motor.motor as motor
 import adafruit_hcsr04
@@ -22,7 +22,7 @@ import adafruit_hcsr04
 cwd = os.getcwd()
 
 
-# Digital output
+# ------------- Digital output ------------- #
 def digitalWrite(pin_no: str, val: float):
     if not hasattr(board, pin_no):
         return  # + send a message
@@ -31,7 +31,7 @@ def digitalWrite(pin_no: str, val: float):
     pin.value = int(val)
 
 
-# Digital input
+# ------------- Digital input ------------- #
 def digitalRead(pin_no: str):
     if not hasattr(board, pin_no):
         return
@@ -40,12 +40,12 @@ def digitalRead(pin_no: str):
     return bool(pin.value)
 
 
-# Delay
+# ------------- Delay ------------- #
 def delay(ms: int):
     time.sleep(ms / 1000)
 
 
-# Button
+# ------------- Button ------------- #
 def button(pin: str):
     button = 0
     try:
@@ -57,14 +57,13 @@ def button(pin: str):
     return not button.value
 
 
-# HC-SR04 Ultrasonic distance sensor
+# ------------- HC-SR04 Ultrasonic distance sensor  ------------- #
 class _dist:
     def def_dist(self, trigger: str, echo: str):
         try:
             self.sonar = adafruit_hcsr04.HCSR04(
                 trigger_pin=getattr(board, trigger),
-                echo_pin=getattr(board, echo)
-            )
+                echo_pin=getattr(board, echo))
         except Exception:
             return
 
@@ -79,10 +78,12 @@ class _dist:
             return round(s / 20, 1)
         except Exception:
             return 0.0
+
+
 dist = _dist()
 
 
-# DHT Temperature and Humidity sensor
+# ------------- DHT Temperature and Humidity sensor ------------- #
 class _dht:
     def def_dht(self, pin: str):
         try:
@@ -101,10 +102,12 @@ class _dht:
             return self.dhtDevice.humidity
         except Exception:
             return 0.0
+
+
 dht = _dht()
 
 
-# OLED display
+# ------------- OLED display ------------- #
 class _oled:
     def define(self, _height, _width, _text_color):
         self.width = int(_width)
@@ -113,7 +116,9 @@ class _oled:
 
     def print(self, text):
         subprocess.Popen(
-            "python3 " + cwd + "/plugins/rpi/sensors/oled_display.py "
+            "python3 "
+            + cwd
+            + "/plugins/rpi/sensors/oled_display.py "
             + str(self.height)
             + " "
             + str(self.width)
@@ -124,9 +129,12 @@ class _oled:
             + "'",
             shell=True,
         )
+
+
 oled = _oled()
 
-# PIR sensor (not tested yet)
+
+# ------------- PIR sensor ------------- #
 def pir_motion(pin: str) -> bool:
     try:
         pir = digitalio.DigitalInOut(getattr(board, pin))
@@ -134,45 +142,47 @@ def pir_motion(pin: str) -> bool:
         return bool(pir.value)
     except Exception:
         return False
-    
-# SERVO motor  need to make usability easy and more controlable
-def servo(pin: str, times, pulse_ms: int, frequency=50):
-    pwm = pwmio.PWMOut(getattr(board, pin), duty_cycle=2 ** 15,  frequency=50)
-    servo_m = servo.Servo(pwm)
-    duty_cycle = int(pulse_ms / (period_ms / 65535.0))
-
-    for i in range(0,times):
-        for angle in range(0, 180, 5):  # 0 - 180 degrees, 5 degrees at a time.
-            servo.angle = angle
-            time.sleep(0.05)
-        for angle in range(180, 0, -5): # 180 - 0 degrees, 5 degrees at a time.
-            servo.angle = angle
-            time.sleep(0.05)
 
 
-    
-# PWM led
+# ------------- SERVO motor ------------- #
+# *need to make usability easy and more controlable
+# def servo_motor(pin: str, times, pulse_ms: int, frequency=50):
+#     pwm = pwmio.PWMOut(getattr(board, pin), duty_cycle=2**15, frequency=50)
+#     servo_m = servo.Servo(pwm)
+#     duty_cycle = int(pulse_ms / (period_ms / 65535.0))
+
+#     for i in range(0, times):
+#         for angle in range(0, 180, 5):  # 0 - 180 degrees, 5 Degree steps
+#             servo.angle = angle
+#             time.sleep(0.05)
+#         for angle in range(180, 0, -5):  # 180 - 0 degrees, 5 Degree steps
+#             servo.angle = angle
+#             time.sleep(0.05)
+
+
+# ------------- PWM led ------------- #
 def pwm_led(pin: str, duty_cycle: int):
     led = pwmio.PWMOut(getattr(board, pin), frequency=5000, duty_cycle=0)
     led.duty_cycle = int(duty_cycle / 100 * 65535)
-    
-## Example usage
-# pwm_led('D14', 50)  # Set to 50% duty cycle
+    if duty_cycle == 0:
+        led.deinit()
+
+# # Example usage
+# pwm_led('D14', 50)  # Set to 50% brightness or duty cycle
 # sleep(1)     # Keep the LED on for 1 second
-# led.deinit() # Turn off PWM
 
 
-# DC Motor (not tested yet)
+# ------------- DC Motor (not tested yet) ------------- #
 def run_dc_motor(pin1, pin2, duration: float):
     pwm_a = pwmio.PWMOut(getattr(board, pin1), frequency=5000)
     pwm_b = pwmio.PWMOut(getattr(board, pin2), frequency=5000)
-    
+
     m = motor.DCMotor(pwm_a, pwm_b)
-    m.decay_mode = 0 
+    m.decay_mode = 0
     m.throttle = 1.0
-    
+
     time.sleep(duration)
     m.throttle = 0
 
 # Example usage of the function
-# run_dc_motor('D14', 'D15', 2)  # Uncomment to run the motor for 2 seconds
+# run_dc_motor('D14', 'D15', 2)  # Run the motor for 2 seconds

@@ -2,8 +2,6 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
 
-from gettext import gettext as _
-
 # from gpio import gui
 import rp_tests.rp_gpio as rp_gpio
 import rp_tests.rp_i2c as rp_i2c
@@ -42,8 +40,8 @@ class RPiControlCenterActivity(activity.Activity):
                 button.props.group = self.names['gpio']
             toolbar_box.toolbar.insert(button, -1)
             self.names[name] = button
-            button.connect('toggled', self.on_radiobutton_toggle, name)
- 
+            button.connect('toggled', self.radiobutton_cb, name)
+
         separator = Gtk.SeparatorToolItem()
         separator.props.draw = False
         separator.set_expand(True)
@@ -57,21 +55,20 @@ class RPiControlCenterActivity(activity.Activity):
         self.set_toolbar_box(toolbar_box)
         self.show_all()
 
-        # canvas
-        self.set_canvas(rp_settings.gui())
+        # home screen
+        self.radiobutton_cb(None, 'gpio')
 
-
-    def on_radiobutton_toggle(self, _b, name):
-        if name == 'gpio':
-            self.set_canvas(rp_gpio.gui())
-        elif name == 'i2c':
-            self.set_canvas(rp_i2c.gui())
-        elif name == 'cam':
-            self.set_canvas(rp_camera.gui())
-        elif name == 'settings':
-            self.set_canvas(rp_settings.gui())
-        elif name == 'audio':
-            self.set_canvas(rp_audio.gui())
-        elif name == 'spi':
-            self.set_canvas(rp_spi.gui())
-        
+    def radiobutton_cb(self, _b, name):
+        options = {
+            'gpio': rp_gpio.gui,
+            'i2c': rp_i2c.gui,
+            'cam': rp_camera.gui,
+            'settings': rp_settings.gui,
+            'audio': rp_audio.gui,
+            'spi': rp_spi.gui
+        }
+        # set canvas
+        self.set_canvas(options[name]())
+        canvas = self.get_canvas()
+        canvas.override_background_color(
+            Gtk.StateType.NORMAL, Gdk.RGBA(0.92, 0.92, 0.92, 1))

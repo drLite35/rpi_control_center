@@ -1,10 +1,11 @@
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk
 import pyaudio
 import wave
 
-from gettext import gettext as _
+# from gettext import gettext as _
+
 
 def play_test_sound(device_index):
     chunk = 1024
@@ -28,14 +29,15 @@ def play_test_sound(device_index):
     stream.close()
     p.terminate()
 
+
 def gui():
     scrolled_window = Gtk.ScrolledWindow()
-    scrolled_window.override_background_color(Gtk.StateType.NORMAL, Gdk.RGBA(.92, .92, .92, 1))
     mainVbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
     mainVbox.set_margin_bottom(60)
     
     scrolled_window.add(mainVbox)
-    scrolled_window.set_policy(hscrollbar_policy=Gtk.PolicyType.AUTOMATIC, vscrollbar_policy=Gtk.PolicyType.AUTOMATIC)
+    scrolled_window.set_policy(hscrollbar_policy=Gtk.PolicyType.AUTOMATIC,
+                               vscrollbar_policy=Gtk.PolicyType.AUTOMATIC)
 
     gpiotxt = Gtk.Label()
     mainVbox.pack_start(gpiotxt, False, False, 100)
@@ -58,7 +60,8 @@ def gui():
     mainVbox.pack_start(device_combo, False, False, 0)
 
     test_button = Gtk.Button(label="Test Audio")
-    test_button.connect("clicked", lambda w: play_test_sound(device_combo.get_active()))
+    test_button.connect("clicked", lambda w: play_test_sound(
+        device_combo.get_active()))
     mainVbox.pack_start(test_button, False, False, 0)
 
     mainVbox.show_all()
