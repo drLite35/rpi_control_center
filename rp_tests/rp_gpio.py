@@ -5,30 +5,25 @@ from gi.repository import Gtk, Gdk
 
 # from gettext import gettext as _
 
-import rp_tests.rp_list as rp_list
 import digitalio
 import board
 
+import rp_tests.rp_list as rp_list
+from utils import Window, load_css
+
 
 def gui():
-    scrolled_window = Gtk.ScrolledWindow()
-    mainVbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-    mainVbox.set_margin_bottom(60)
-    scrolled_window.add(mainVbox)
-    scrolled_window.set_policy(
-        hscrollbar_policy=Gtk.PolicyType.AUTOMATIC,
-        vscrollbar_policy=Gtk.PolicyType.AUTOMATIC,
-    )
+    window = Window()
+    scrolled_window = window.get_scrolled_window()
+    mainVbox = window.get_mainbox()
+    window.set_markup("GPIO Pins Control")
+
     secVbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
     gpioTopRow = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
     gpioBottomRow = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
     gpioBottomRow.set_halign(Gtk.Align.CENTER)
     gpioTopRow.set_halign(Gtk.Align.CENTER)
 
-    gpiotxt = Gtk.Label()
-    gpiotxt.set_markup('<span font="25">GPIO Pins Control</span>')
-    gpiotxt.set_use_markup(True)
-    gpiotxt.show()
 
     # load css
     css = b"""
@@ -63,14 +58,7 @@ def gui():
         background-color: #B4B4B4;
     }
     """
-
-    style_provider = Gtk.CssProvider()
-    style_provider.load_from_data(css)
-    Gtk.StyleContext.add_provider_for_screen(
-        Gdk.Screen.get_default(),
-        style_provider,
-        Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
-    )
+    load_css(css)
 
     # create toggle buttons
     for index, pin in enumerate(rp_list.gpio):
@@ -93,14 +81,12 @@ def gui():
         btn.show()
 
     # mainVbox items
-    mainVbox.pack_start(gpiotxt, False, False, 100)
     hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
     mainVbox.pack_start(hbox, False, False, 0)
     hbox.pack_start(secVbox, False, False, 0)
     hbox.set_halign(Gtk.Align.CENTER)
     hbox.set_margin_bottom(50)
     hbox.show()
-    mainVbox.show()
 
     # hbox items
     secVbox.pack_start(gpioTopRow, False, False, 0)
@@ -114,7 +100,7 @@ def gui():
     gpioBottomRow.show()
     gpioTopRow.show()
     secVbox.show()
-    scrolled_window.show()
+
     return scrolled_window
 
 

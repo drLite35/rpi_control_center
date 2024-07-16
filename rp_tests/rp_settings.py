@@ -1,33 +1,24 @@
-import gi
+import os
+import subprocess
 
+import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Gdk
 
 # from gettext import gettext as _
 import rp_tests.rp_list as rp_list
 
-import os
-import subprocess
+from utils import Window, load_css
+
 
 
 def gui():
     get_settings()
-    scrolled_window = Gtk.ScrolledWindow()
-    mainVbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-    mainVbox.set_margin_bottom(60)
 
-    scrolled_window.add(mainVbox)
-    scrolled_window.set_policy(
-        hscrollbar_policy=Gtk.PolicyType.AUTOMATIC,
-        vscrollbar_policy=Gtk.PolicyType.AUTOMATIC,
-    )
-
-    heading_label = Gtk.Label()
-    mainVbox.pack_start(heading_label, False, False, 60)
-    heading_label.set_markup('<span font="25">Settings</span>')
-    heading_label.set_use_markup(True)
-    heading_label.set_halign(Gtk.Align.CENTER)
-    scrolled_window.show_all()
+    window = Window()
+    scrolled_window = window.get_scrolled_window()
+    mainVbox = window.get_mainbox()
+    window.set_markup("Settings")
 
     # 9 horizontal grids to hold the labels and buttons
     hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
@@ -38,7 +29,6 @@ def gui():
         hbox.pack_start(b, True, True, 0)
 
     hbox.show_all()
-    mainVbox.show_all()
     mainVbox.pack_start(hbox, False, False, 0)
 
     css = b"""
@@ -61,14 +51,7 @@ def gui():
         margin: 10px;
         }
     """
-
-    style_provider = Gtk.CssProvider()
-    style_provider.load_from_data(css)
-    Gtk.StyleContext.add_provider_for_screen(
-        Gdk.Screen.get_default(),
-        style_provider,
-        Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
-    )
+    load_css(css)
 
     for i, setting in enumerate(rp_list.settings):
         button = Gtk.ToggleButton("ON" if rp_list.settings_status[setting]

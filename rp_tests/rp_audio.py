@@ -4,6 +4,8 @@ from gi.repository import Gtk
 import pyaudio
 import wave
 
+from utils import Window
+
 # from gettext import gettext as _
 
 
@@ -31,19 +33,10 @@ def play_test_sound(device_index):
 
 
 def gui():
-    scrolled_window = Gtk.ScrolledWindow()
-    mainVbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-    mainVbox.set_margin_bottom(60)
-    
-    scrolled_window.add(mainVbox)
-    scrolled_window.set_policy(hscrollbar_policy=Gtk.PolicyType.AUTOMATIC,
-                               vscrollbar_policy=Gtk.PolicyType.AUTOMATIC)
-
-    gpiotxt = Gtk.Label()
-    mainVbox.pack_start(gpiotxt, False, False, 100)
-    gpiotxt.set_markup('<span font="25">Camera status</span>') 
-    gpiotxt.set_use_markup(True)
-    gpiotxt.show()
+    window = Window()
+    scrolled_window = window.get_scrolled_window()
+    mainVbox = window.get_mainbox()
+    window.set_markup("Camera status")
 
     # Audio device selection
     device_store = Gtk.ListStore(str, int)
@@ -64,7 +57,4 @@ def gui():
         device_combo.get_active()))
     mainVbox.pack_start(test_button, False, False, 0)
 
-    mainVbox.show_all()
-    scrolled_window.show()
-    
     return scrolled_window
