@@ -6,7 +6,7 @@ from gi.repository import Gtk
 # from gettext import gettext as _
 # from time import sleep
 
-from utils import Window
+from rp_tests.utils import Window
 
 
 def gui():

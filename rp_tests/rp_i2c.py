@@ -5,7 +5,7 @@ from gi.repository import Gtk, Gdk
 import subprocess
 
 # from gettext import gettext as _
-from utils import Window, load_css
+from rp_tests.utils import Window, load_css
 
 
 def gui():
@@ -40,7 +40,8 @@ def gui():
 # 70 : -- -- -- -- -- -- -- --
 #     """
 
-    output = subprocess.check_output(['i2cdetect', '-y', '1']).decode('utf-8')
+    output = subprocess.check_output([
+        'sudo', 'i2cdetect', '-y', '1']).decode('utf-8')
 
     hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
     available_devices = Gtk.Label()

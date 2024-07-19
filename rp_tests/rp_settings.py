@@ -8,8 +8,7 @@ from gi.repository import Gtk, Gdk
 # from gettext import gettext as _
 import rp_tests.rp_list as rp_list
 
-from utils import Window, load_css
-
+from rp_tests.utils import Window, load_css
 
 
 def gui():
@@ -105,8 +104,8 @@ def gui():
 
 
 def get_settings():
-    for i in rp_list.settings_status:
-        try:
+    try:
+        for i in rp_list.settings_status:
             # get func.. 1=off 0=on
             rp_list.settings_status.update(
                 {i: not int((subprocess.run(
@@ -114,9 +113,8 @@ def get_settings():
                             shell=True,
                             capture_output=True,
                             text=True,).stdout.strip()))})
-        except Exception as e:
-            print("E: Are you on a Raspberry Pi?")
-            print(str(e))
+    except:
+        print("E: This *is* Raspberry Pi yeah?")
 
     # try-except to check if it's working properly
     # - pin = digitalio.DigitalInOut(board.D4)

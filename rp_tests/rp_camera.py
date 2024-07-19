@@ -8,7 +8,7 @@ from gi.repository import Gtk
 # from picamera2 import Picamera2, Preview
 # from time import sleep
 
-from utils import Window
+from rp_tests.utils import Window
 
 
 def gui():

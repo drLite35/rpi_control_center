@@ -15,7 +15,7 @@ class Window:
         )
 
         self.gpiotxt = Gtk.Label()
-        self.mainVbox.pack_start(gpiotxt, False, False, 100)
+        self.mainVbox.pack_start(self.gpiotxt, False, False, 100)
         self.gpiotxt.show()
         self.mainVbox.show()
         self.scrolled_window.show()

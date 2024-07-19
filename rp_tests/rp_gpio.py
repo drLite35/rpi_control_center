@@ -9,7 +9,7 @@ import digitalio
 import board
 
 import rp_tests.rp_list as rp_list
-from utils import Window, load_css
+from rp_tests.utils import Window, load_css
 
 
 def gui():
@@ -23,7 +23,6 @@ def gui():
     gpioBottomRow = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
     gpioBottomRow.set_halign(Gtk.Align.CENTER)
     gpioTopRow.set_halign(Gtk.Align.CENTER)
-
 
     # load css
     css = b"""

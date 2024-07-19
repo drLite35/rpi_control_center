@@ -4,7 +4,7 @@ from gi.repository import Gtk
 import pyaudio
 import wave
 
-from utils import Window
+from rp_tests.utils import Window
 
 # from gettext import gettext as _
 
