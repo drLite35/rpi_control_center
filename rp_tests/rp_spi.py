@@ -9,16 +9,18 @@ from gi.repository import Gtk
 from rp_tests.utils import Window
 
 
-def gui():
-    window = Window()
-    scrolled_window = window.get_scrolled_window()
-    mainVbox = window.get_mainbox()
-    window.set_markup("Connected SPI devices")
+class RP_SPI:
+    @staticmethod
+    def gui():
+        window = Window()
+        scrolled_window = window.get_scrolled_window()
+        mainVbox = window.get_mainbox()
+        window.set_markup("Connected SPI devices")
 
-    # check if spi devices are connected
-    # shell command to discover spi: ls /dev/spi*:
-    #       /dev/spidev0.0  /dev/spidev`0.1
-    # When no spi detected the output would be:
-    #       ls: cannot access '/dev/spi*': No such file or directory
+        # check if spi devices are connected
+        # shell command to discover spi: ls /dev/spi*:
+        #       /dev/spidev0.0  /dev/spidev`0.1
+        # When no spi detected the output would be:
+        #       ls: cannot access '/dev/spi*': No such file or directory
 
-    return scrolled_window
+        return scrolled_window

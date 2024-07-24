@@ -2,12 +2,12 @@
 from gettext import gettext as _
 
 names = [
-    'gpio',
-    'i2c',
-    'spi',
-    'cam',
-    'audio',
-    'settings',
+    'RP_GPIO',
+    'RP_I2C',
+    'RP_SPI',
+    'RP_CAM',
+    'RP_AUDIO',
+    'RP_SETTINGS',
 ]
 
 tooltips = {

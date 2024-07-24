@@ -11,21 +11,23 @@ from gi.repository import Gtk
 from rp_tests.utils import Window
 
 
-def gui():
-    window = Window()
-    scrolled_window = window.get_scrolled_window()
-    mainVbox = window.get_mainbox()
-    window.set_markup("Camera status")
+class RP_CAM:
+    @staticmethod
+    def gui():
+        window = Window()
+        scrolled_window = window.get_scrolled_window()
+        mainVbox = window.get_mainbox()
+        window.set_markup("Camera status")
 
-    # shell command to discover cam: vcgencmd get_camera:
-    #       supported=1 detected=1, libcamera interfaces=0;
-    # When no camera detected the output would be:
-    #       vcgencmd get_camera--->supported=0 detected=0
+        # shell command to discover cam: vcgencmd get_camera:
+        #       supported=1 detected=1, libcamera interfaces=0;
+        # When no camera detected the output would be:
+        #       vcgencmd get_camera--->supported=0 detected=0
 
-    # picam2 = Picamera2()
-    # picam2.start_preview(Preview.QTGL)
-    # picam2.start()
-    # sleep(5)
-    # picam2.close()
+        # picam2 = Picamera2()
+        # picam2.start_preview(Preview.QTGL)
+        # picam2.start()
+        # sleep(5)
+        # picam2.close()
 
-    return scrolled_window
+        return scrolled_window

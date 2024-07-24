@@ -10,96 +10,100 @@ import rp_tests.rp_list as rp_list
 
 from rp_tests.utils import Window, load_css
 
-def gui():
-    get_settings()
 
-    window = Window()
-    scrolled_window = window.get_scrolled_window()
-    mainVbox = window.get_mainbox()
-    window.set_markup("Settings")
+class RP_SETTINGS:
+    @staticmethod
+    def gui():
+        get_settings()
+        window = Window()
+        scrolled_window = window.get_scrolled_window()
+        mainVbox = window.get_mainbox()
+        window.set_markup("Settings")
 
-    # 9 horizontal grids to hold the labels and buttons
-    hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-    grids = {}
-    for i in range(1, 10):
-        b = Gtk.Grid()
-        grids["b" + str(i)] = b  # Store grid in dictionary with a key
-        hbox.pack_start(b, True, True, 0)
+        # 9 horizontal grids to hold the labels and buttons
+        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        grids = {}
+        for i in range(1, 10):
+            b = Gtk.Grid()
+            # Store grid in dictionary with a key
+            grids["b" + str(i)] = b
+            hbox.pack_start(b, True, True, 0)
 
-    hbox.show_all()
-    mainVbox.pack_start(hbox, False, False, 0)
+        hbox.show_all()
+        mainVbox.pack_start(hbox, False, False, 0)
 
-    css = b"""
-    .settings-button{
-        margin: 10px;
-        border: none;
-        background-color: #FF616D ;
-        color: #FFF;
-        border-radius: 50px;
-        font-size: 16px;
-        min-width: 50px;
-        min-height: 20px;
-    }
-    .settings-button:checked, .settings-button:active{
-        background-color: #ACED9A;
-        color: #000;
+        css = b"""
+        .settings-button{
+            margin: 10px;
+            border: none;
+            background-color: #FF616D ;
+            color: #FFF;
+            border-radius: 50px;
+            font-size: 16px;
+            min-width: 50px;
+            min-height: 20px;
         }
+        .settings-button:checked, .settings-button:active{
+            background-color: #ACED9A;
+            color: #000;
+            }
 
-    .settings-label{
-        margin: 10px;
-        }
-    """
-    load_css(css)
+        .settings-label{
+            margin: 10px;
+            }
+        """
+        load_css(css)
 
-    for i, setting in enumerate(rp_list.settings):
-        button = Gtk.ToggleButton("ON" if rp_list.settings_status[setting]
-                                  else "OFF")
-        button.get_style_context().add_class("settings-button")
-        label = Gtk.Label()
-        label.get_style_context().add_class("settings-label")
-        label.set_markup('<span font="18">' +
-                         rp_list.settings[setting] + '</span>')
+        for i, setting in enumerate(rp_list.settings):
+            button = Gtk.ToggleButton(
+                "ON" if rp_list.settings_status[setting]
+                else "OFF")
+            button.get_style_context().add_class("settings-button")
+            label = Gtk.Label()
+            label.get_style_context().add_class("settings-label")
+            label.set_markup('<span font="18">' +
+                             rp_list.settings[setting] + '</span>')
 
-        grids['b4'].attach(label, 0, i, 1, 1)
-        grids['b7'].attach(button, 0, i, 1, 1)
+            grids['b4'].attach(label, 0, i, 1, 1)
+            grids['b7'].attach(button, 0, i, 1, 1)
 
-        label.set_halign(Gtk.Align.START)
-        button.set_halign(Gtk.Align.START)
-        button.show()
-        label.show()
-        # toggle buttons on if settings are on
-        if rp_list.settings_status[setting]:
-            button.set_active(True)
-        button.connect("toggled", change_settings, setting)
+            label.set_halign(Gtk.Align.START)
+            button.set_halign(Gtk.Align.START)
+            button.show()
+            label.show()
+            # toggle buttons on if settings are on
+            if rp_list.settings_status[setting]:
+                button.set_active(True)
+            button.connect("toggled", change_settings, setting)
 
-    # -----------------  Advance Settings Expander ---------------- #
-    # expander_label=Gtk.Label()
-    # expander_label.set_markup('<span font="25">+ Advanced Settings</span>')
-    # expander_label.set_use_markup(True)
-    # expander_label.show()
+        # -----------------  Advance Settings Expander ---------------- #
+        # expander_label=Gtk.Label()
+        # expander_label.set_markup('<span font="25">+ Advanced Settings</span>')
+        # expander_label.set_use_markup(True)
+        # expander_label.show()
 
-    # expander = Gtk.Expander()
-    # expander.set_label_widget(expander_label)
-    # expander.set_halign(Gtk.Align.CENTER)
+        # expander = Gtk.Expander()
+        # expander.set_label_widget(expander_label)
+        # expander.set_halign(Gtk.Align.CENTER)
 
-    # mainVbox.pack_start(expander, False, True, 60)
-    # adv_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
-    # expander.add(adv_box)
-    # adv_box.show()
-    # expander.show()
+        # mainVbox.pack_start(expander, False, True, 60)
+        # adv_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        # expander.add(adv_box)
+        # adv_box.show()
+        # expander.show()
 
-    # separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
-    # adv_box.pack_start(separator, False, True, 0)
-    # separator.show()
+        # separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
+        # adv_box.pack_start(separator, False, True, 0)
+        # separator.show()
 
-    # adv_settings_label=Gtk.Label()
-    # adv_settings_label.set_markup('<span font="25">Advanced Settings</span>')
-    # adv_settings_label.set_use_markup(True)
-    # adv_settings_label.set_halign(Gtk.Align.CENTER)
-    # adv_box.pack_start(adv_settings_label, False, False, 100)
-    # adv_settings_label.show()
+        # adv_settings_label=Gtk.Label()
+        # adv_settings_label.set_markup('<span font="25">Advanced Settings</span>')
+        # adv_settings_label.set_use_markup(True)
+        # adv_settings_label.set_halign(Gtk.Align.CENTER)
+        # adv_box.pack_start(adv_settings_label, False, False, 100)
+        # adv_settings_label.show()
 
-    return scrolled_window
+        return scrolled_window
 
 
 def get_settings():

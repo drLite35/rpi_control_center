@@ -3,12 +3,12 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
 
 # from gpio import gui
-import rp_tests.rp_gpio as rp_gpio
-import rp_tests.rp_i2c as rp_i2c
-import rp_tests.rp_camera as rp_camera
-import rp_tests.rp_settings as rp_settings
-import rp_tests.rp_audio as rp_audio
-import rp_tests.rp_spi as rp_spi
+from rp_tests.rp_gpio import RP_GPIO
+from rp_tests.rp_i2c import RP_I2C
+from rp_tests.rp_camera import RP_CAM
+from rp_tests.rp_settings import RP_SETTINGS
+from rp_tests.rp_audio RP_AUDIO
+from rp_tests.rp_spi RP_SPI
 from rp_tests.rp_list import names, tooltips
 
 from sugar3.activity import activity
@@ -58,17 +58,11 @@ class RPiControlCenterActivity(activity.Activity):
         # home screen
         self.radiobutton_cb(None, 'gpio')
 
-    def radiobutton_cb(self, _b, name):
-        options = {
-            'gpio': rp_gpio.gui,
-            'i2c': rp_i2c.gui,
-            'cam': rp_camera.gui,
-            'settings': rp_settings.gui,
-            'audio': rp_audio.gui,
-            'spi': rp_spi.gui
-        }
+    def radiobutton_cb(self, name):
+        button = 'RP_' + name.upper()
+
         # set canvas
-        self.set_canvas(options[name]())
+        self.set_canvas(globals()[button].gui)
         canvas = self.get_canvas()
         canvas.override_background_color(
             Gtk.StateType.NORMAL, Gdk.RGBA(0.92, 0.92, 0.92, 1))
