@@ -11,7 +11,7 @@ from gi.repository import Gtk
 from rp_tests.utils import Window
 
 
-class RP_CAM:
+class CAM:
     @staticmethod
     def gui():
         window = Window()

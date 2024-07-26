@@ -2,13 +2,7 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
 
-# from gpio import gui
-from rp_tests.rp_gpio import RP_GPIO
-from rp_tests.rp_i2c import RP_I2C
-from rp_tests.rp_camera import RP_CAM
-from rp_tests.rp_settings import RP_SETTINGS
-from rp_tests.rp_audio RP_AUDIO
-from rp_tests.rp_spi RP_SPI
+import importlib
 from rp_tests.rp_list import names, tooltips
 
 from sugar3.activity import activity
@@ -35,9 +29,9 @@ class RPiControlCenterActivity(activity.Activity):
         for name in names:
             button = RadioToolButton()
             button.set_tooltip(tooltips[name])
-            button.props.icon_name = name
+            button.props.icon_name = name.lower()
             if len(self.names) > 0:
-                button.props.group = self.names['gpio']
+                button.props.group = self.names['GPIO']
             toolbar_box.toolbar.insert(button, -1)
             self.names[name] = button
             button.connect('toggled', self.radiobutton_cb, name)
@@ -56,13 +50,14 @@ class RPiControlCenterActivity(activity.Activity):
         self.show_all()
 
         # home screen
-        self.radiobutton_cb(None, 'gpio')
+        self.radiobutton_cb(None, 'GPIO')
 
-    def radiobutton_cb(self, name):
-        button = 'RP_' + name.upper()
-
+    def radiobutton_cb(self, button, name):
+        # Dynamically import the module and retrieve class
+        module = importlib.import_module('rp_tests.rp_' + name.lower())
+        globals()[name] = getattr(module, name)
         # set canvas
-        self.set_canvas(globals()[button].gui)
+        self.set_canvas(globals()[name].gui())
         canvas = self.get_canvas()
         canvas.override_background_color(
             Gtk.StateType.NORMAL, Gdk.RGBA(0.92, 0.92, 0.92, 1))

@@ -3,7 +3,7 @@ import subprocess
 
 import gi
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk
 
 # from gettext import gettext as _
 import rp_tests.rp_list as rp_list
@@ -11,7 +11,7 @@ import rp_tests.rp_list as rp_list
 from rp_tests.utils import Window, load_css
 
 
-class RP_SETTINGS:
+class SETTINGS:
     @staticmethod
     def gui():
         get_settings()
@@ -78,7 +78,8 @@ class RP_SETTINGS:
 
         # -----------------  Advance Settings Expander ---------------- #
         # expander_label=Gtk.Label()
-        # expander_label.set_markup('<span font="25">+ Advanced Settings</span>')
+        # expander_label.set_markup('\
+        #   <span font="25">+ Advanced Settings</span>')
         # expander_label.set_use_markup(True)
         # expander_label.show()
 
@@ -97,7 +98,8 @@ class RP_SETTINGS:
         # separator.show()
 
         # adv_settings_label=Gtk.Label()
-        # adv_settings_label.set_markup('<span font="25">Advanced Settings</span>')
+        # adv_settings_label.set_markup('\
+        #   <span font="25">Advanced Settings</span>')
         # adv_settings_label.set_use_markup(True)
         # adv_settings_label.set_halign(Gtk.Align.CENTER)
         # adv_box.pack_start(adv_settings_label, False, False, 100)
@@ -109,13 +111,13 @@ class RP_SETTINGS:
 def get_settings():
     try:
         for i in rp_list.settings_status:
-            # get func.. 1=off 0=on
-            rp_list.settings_status.update(
-                {i: not int((subprocess.run(
-                            f"sudo raspi-config nonint get_{i}",
-                            shell=True,
-                            capture_output=True,
-                            text=True,).stdout.strip()))})
+            output = subprocess.run(
+                f"sudo raspi-config nonint get_{i}",
+                shell=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            rp_list.settings_status.update({i: not int(output)})
     except:
         print("E: This *is* Raspberry Pi yeah?")
 

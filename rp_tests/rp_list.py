@@ -2,21 +2,21 @@
 from gettext import gettext as _
 
 names = [
-    'RP_GPIO',
-    'RP_I2C',
-    'RP_SPI',
-    'RP_CAM',
-    'RP_AUDIO',
-    'RP_SETTINGS',
+    'GPIO',
+    'I2C',
+    'SPI',
+    'CAM',
+    'AUDIO',
+    'SETTINGS',
 ]
 
 tooltips = {
-    'gpio': _('GPIO'),
-    'i2c': _('I2C'),
-    'spi': _('SPI'),
-    'cam': _('Camera'),
-    'audio': _('Audio'),
-    'settings': _('Settings'),
+    'GPIO': _('GPIO'),
+    'I2C': _('I2C'),
+    'SPI': _('SPI'),
+    'CAM': _('Camera'),
+    'AUDIO': _('Audio'),
+    'SETTINGS': _('Settings'),
 }
 
 gpio = [
@@ -56,8 +56,8 @@ settings = {
     'vnc': _('VNC Server'),
     'ssh': _('SSH Server'),
     'autologin': _('Autologin'),
-    'cli': _('Boot into CLI'),
-    'gui': _('Boot into GUI'),
+    'boot_splash': _('Boot Splash Screen'),
+    'boot_cli': _('Boot into CLI'),
 }
 
 settings_status = {
@@ -68,8 +68,8 @@ settings_status = {
     'vnc': 1,
     'ssh': 1,
     'autologin': 0,
-    'cli': 0,
-    'gui': 1,
+    'boot_splash': 1,
+    'boot_cli': 0,
 }
 
 # advanced_settings_jumbo = {
@@ -79,7 +79,3 @@ settings_status = {
 # advanced_settings_toggle = {
 #     'Boot Splash Screen' : 'do_boot_splash',
 # }
-
-boxes_settings_layout = [
-    'b1', 'b2', 'b3', 'b4', 'b5', 'b6',
-]

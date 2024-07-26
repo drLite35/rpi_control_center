@@ -1,7 +1,7 @@
 import gi
 
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk
 
 # from gettext import gettext as _
 
@@ -12,7 +12,7 @@ import rp_tests.rp_list as rp_list
 from rp_tests.utils import Window, load_css
 
 
-class RP_GPIO:
+class GPIO:
     @staticmethod
     def gui():
         window = Window()

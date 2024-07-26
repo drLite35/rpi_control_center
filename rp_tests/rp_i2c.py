@@ -1,14 +1,14 @@
 import gi
 
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk
 import subprocess
 
 # from gettext import gettext as _
 from rp_tests.utils import Window, load_css
 
 
-class RP_I2C:
+class I2C:
     @staticmethod
     def gui():
         window = Window()
@@ -30,17 +30,17 @@ class RP_I2C:
         """
         load_css(css)
 
-        #     output_eg = """
-        ##       0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
-        ## 00 :                      -- -- -- -- -- -- -- -- --
-        ## 10 : -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-        ## 20 : -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-        ## 30 : -- -- -- -- -- -- -- -- -- -- -- -- 3c -- -- --
-        ## 40 : -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-        ## 50 : -- -- -- -- -- -- -- -- -- -- -- -- -- 5d -- --
-        ## 60 : -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-        ## 70 : -- -- -- -- -- -- -- --
-        ##     """
+        #         output_eg = """
+        #       0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+        # 00 :                      -- -- -- -- -- -- -- -- --
+        # 10 : -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+        # 20 : -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+        # 30 : -- -- -- -- -- -- -- -- -- -- -- -- 3c -- -- --
+        # 40 : -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+        # 50 : -- -- -- -- -- -- -- -- -- -- -- -- -- 5d -- --
+        # 60 : -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+        # 70 : -- -- -- -- -- -- -- --
+        # """
 
         output = subprocess.check_output([
             'sudo', 'i2cdetect', '-y', '1']).decode('utf-8')
@@ -73,7 +73,8 @@ class RP_I2C:
         if not devices_found:
             available_devices_txt = '<span font="20">No devices found</span>'
         else:
-            available_devices_txt = available_devices_txt.rstrip(", ") + "</span>"
+            available_devices_txt = available_devices_txt.rstrip(", ")\
+                + "</span>"
         available_devices.set_markup(available_devices_txt)
         available_devices.show()
 

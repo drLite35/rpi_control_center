@@ -6,7 +6,7 @@ import wave
 
 from rp_tests.utils import Window
 
-# from gettext import gettext as _
+# FIXME: This module doesn't work. capture slave is not defined
 
 
 def play_test_sound(device_index):
@@ -31,7 +31,8 @@ def play_test_sound(device_index):
     stream.close()
     p.terminate()
 
-class RP_AUDIO:
+
+class AUDIO:
     @staticmethod
     def gui():
         window = Window()
