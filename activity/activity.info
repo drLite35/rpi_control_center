@@ -1,6 +1,6 @@
 [Activity]
 name = RPiControlCenter
-activity_version = 7
+activity_version = 1
 bundle_id = org.sugarlabs.RPiControlCenter
 exec = sugar-activity3 activity.RPiControlCenterActivity
 icon = activity-rpicontrolcenter
