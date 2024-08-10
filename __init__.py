@@ -1,6 +1,6 @@
 import os
 import site
-os.system('sudo cp -ru ./rpi '+site.getsitepackages()[0])
+os.system('sudo cp -ru ./rpi ' + site.getsitepackages()[0])
 
 import os
 import subprocess
