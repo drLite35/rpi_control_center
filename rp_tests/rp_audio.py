@@ -6,7 +6,7 @@ import wave
 
 from rp_tests.utils import Window
 
-# from gettext import gettext as _
+# FIXME: This module doesn't work. capture slave is not defined
 
 
 def play_test_sound(device_index):
@@ -32,29 +32,31 @@ def play_test_sound(device_index):
     p.terminate()
 
 
-def gui():
-    window = Window()
-    scrolled_window = window.get_scrolled_window()
-    mainVbox = window.get_mainbox()
-    window.set_markup("Camera status")
+class AUDIO:
+    @staticmethod
+    def gui():
+        window = Window()
+        scrolled_window = window.get_scrolled_window()
+        mainVbox = window.get_mainbox()
+        window.set_markup("Camera status")
 
-    # Audio device selection
-    device_store = Gtk.ListStore(str, int)
-    p = pyaudio.PyAudio()
-    for i in range(p.get_device_count()):
-        device_info = p.get_device_info_by_index(i)
-        device_store.append([device_info['name'], i])
-    p.terminate()
+        # Audio device selection
+        device_store = Gtk.ListStore(str, int)
+        p = pyaudio.PyAudio()
+        for i in range(p.get_device_count()):
+            device_info = p.get_device_info_by_index(i)
+            device_store.append([device_info['name'], i])
+        p.terminate()
 
-    device_combo = Gtk.ComboBox.new_with_model(device_store)
-    renderer_text = Gtk.CellRendererText()
-    device_combo.pack_start(renderer_text, True)
-    device_combo.add_attribute(renderer_text, "text", 0)
-    mainVbox.pack_start(device_combo, False, False, 0)
+        device_combo = Gtk.ComboBox.new_with_model(device_store)
+        renderer_text = Gtk.CellRendererText()
+        device_combo.pack_start(renderer_text, True)
+        device_combo.add_attribute(renderer_text, "text", 0)
+        mainVbox.pack_start(device_combo, False, False, 0)
 
-    test_button = Gtk.Button(label="Test Audio")
-    test_button.connect("clicked", lambda w: play_test_sound(
-        device_combo.get_active()))
-    mainVbox.pack_start(test_button, False, False, 0)
+        test_button = Gtk.Button(label="Test Audio")
+        test_button.connect("clicked", lambda w: play_test_sound(
+            device_combo.get_active()))
+        mainVbox.pack_start(test_button, False, False, 0)
 
-    return scrolled_window
+        return scrolled_window
